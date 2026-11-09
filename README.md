@@ -19,7 +19,7 @@ python3 -m pip install -e ".[dev]"  # optional, for tests
 retainbook --db ./retainbook.db add "Auth timeout" "Tried JWT refresh in March and it broke prod." --kind decision
 ```
 
-## 30-second example
+## 30-second quick start
 
 ```bash
 retainbook --db ./retainbook.db add "Auth timeout" "Tried JWT refresh in March and it broke prod." --kind decision --tags auth
@@ -27,6 +27,33 @@ retainbook --db ./retainbook.db add "Customer waiting" "Acme is still waiting on
 retainbook --db ./retainbook.db recall timeout
 retainbook --db ./retainbook.db brief
 ```
+
+Sample output from that exact example:
+
+```
+$ retainbook --db ./retainbook.db add "Auth timeout" "Tried JWT refresh in March and it broke prod." --kind decision --tags auth
+added #1
+$ retainbook --db ./retainbook.db add "Customer waiting" "Acme is still waiting on the timeout fix." --kind open --tags acme
+added #2
+
+$ retainbook --db ./retainbook.db recall timeout
+#2 2026-11-09T21:40:16Z [open] tags=acme Customer waiting
+Acme is still waiting on the timeout fix.
+---
+#1 2026-11-09T21:40:16Z [decision] tags=auth Auth timeout
+Tried JWT refresh in March and it broke prod.
+---
+$ retainbook --db ./retainbook.db brief
+# retainbook brief
+
+## Decisions
+- (1) Auth timeout [auth] — Tried JWT refresh in March and it broke prod.
+
+## Open loops
+- (2) Customer waiting [acme] — Acme is still waiting on the timeout fix.
+```
+
+Timestamps are UTC and will differ on your machine. The ids, kinds, tags, and bodies should match if you use the same commands.
 
 `--db` is optional; the default file is `~/.retainbook/retainbook.db`.
 
@@ -52,6 +79,28 @@ python3 -m pip install git+https://github.com/perron/retainbook.git
 
 This package is not published to PyPI.
 
+## Use it with your agent
+
+You can point a coding agent at this repository and ask it to use the tool, adapt it, or write a small tool in the same style. That works with Claude Code, Codex, Cursor, Grok Bot, and anything else that can clone a git repo and run a Python CLI.
+
+A short prompt you can paste:
+
+> Clone https://github.com/perron/retainbook, install it, and record this decision in a local ./retainbook.db: we are keeping retainbook as a local-first notebook with no API key. Then print a brief.
+
+If you want a new tool in this style, say so explicitly: one job, standard-library Python, pytest first, no API key, and an honest Limits section.
+
+## Contributing / how you can help
+
+Bug reports, tight tests, and small honest features are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to run the suite and for pull request guidelines.
+
+Good first issues:
+
+- Add `edit` and `delete` commands that address a note by id, with tests.
+- Export and import a markdown folder so a notebook can be reviewed in git.
+- Let `brief` filter by tag.
+
+If you are unsure whether an idea fits, open an issue before writing a large patch.
+
 ## License
 
-MIT. See `LICENSE`. Please read `SECURITY.md` before filing a vulnerability report.
+MIT. See `LICENSE`. Please read `SECURITY.md` before filing a vulnerability report. Agents should also read `AGENTS.md`.
