@@ -4,13 +4,28 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "retainbook"
-version = "0.1.0"
+version = "0.1.1"
 description = "Local-first session notebook for coding agents: record decisions, recall by keyword, print a next-session brief."
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [{name = "Karl Perron"}]
+keywords = ["ai", "cli", "memory", "notes"]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Environment :: Console",
+]
 dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/perron/retainbook"
+Repository = "https://github.com/perron/retainbook"
+Issues = "https://github.com/perron/retainbook/issues"
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]

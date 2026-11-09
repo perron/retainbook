@@ -9,7 +9,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS notes (
@@ -138,8 +138,15 @@ def main(argv: list[str] | None = None) -> int:
     p_brief.add_argument("--limit", type=int, default=20)
 
     args = parser.parse_args(argv)
+    if getattr(args, "limit", None) is not None and args.limit <= 0:
+        print("error: --limit must be positive", file=sys.stderr)
+        return 1
     db_path = Path(args.db) if args.db else default_db()
-    conn = open_db(db_path)
+    try:
+        conn = open_db(db_path)
+    except (OSError, sqlite3.Error) as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
     try:
         if args.cmd == "add":
             note_id = add_note(conn, args.title, args.body, args.kind, args.tags)
