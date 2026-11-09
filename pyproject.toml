@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "retainbook"
+version = "0.1.0"
+description = "Local-first session notebook for coding agents: record decisions, recall by keyword, print a next-session brief."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Karl Perron"}]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+retainbook = "retainbook.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["retainbook*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
